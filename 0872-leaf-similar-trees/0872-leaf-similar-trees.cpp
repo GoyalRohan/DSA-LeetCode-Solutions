@@ -12,13 +12,13 @@
 class Solution {
 public:
     
-    void pre(TreeNode *root , vector<int> &ans)
+    void pre(TreeNode *root , string &ans)
     {
         if(root == NULL)
             return ; 
         
         if(!root->left && !root->right)
-            ans.push_back(root->val)  ;
+            ans += to_string(root->val) + "#"  ;
         
         pre(root->left , ans) ; 
         pre(root->right , ans) ; 
@@ -28,22 +28,10 @@ public:
         
     
     bool leafSimilar(TreeNode* root1, TreeNode* root2) {
-        vector<int> ans1 , ans2  ;
+        string ans1 = "" , ans2 = "" ; 
         pre(root1 , ans1) ; 
         pre(root2 , ans2) ; 
         
-        if(ans1.size() != ans2.size())
-            return false ; 
-        
-        int i=0 ; 
-        while(i < ans1.size())
-        {
-            if(ans1[i] != ans2[i])
-                return false ; 
-            
-            i++ ;
-        }
-        
-        return true ; 
+        return ans1 == ans2 ; 
     }
 };
