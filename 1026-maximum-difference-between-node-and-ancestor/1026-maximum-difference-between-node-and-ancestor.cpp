@@ -12,31 +12,25 @@
 class Solution {
 public:
     
-    void maxAncUtil(TreeNode *root, int &maxi , int value)
-    {
-        if(root == NULL)
-            return ; 
-        
-        maxi = max(maxi , abs(root->val - value)) ; 
-        
-        maxAncUtil(root->left , maxi , value) ; 
-        maxAncUtil(root->right , maxi , value) ; 
-        
-    }
+    int ans = 0 ; 
     
-    void maxAnc(TreeNode *root , int &maxi)
+    void maxAnc(TreeNode *root , int maxi, int mini)
     {
         if(root == NULL)
             return ; 
         
-        maxAncUtil(root , maxi , root->val) ; 
-        maxAnc(root->left , maxi) ; 
-        maxAnc(root->right , maxi) ; 
+        maxi = max(maxi , root->val) ; 
+        mini = min(mini, root->val) ; 
+        
+        ans = max(ans , maxi - mini) ;
+        
+        maxAnc(root->left , maxi, mini) ; 
+        maxAnc(root->right , maxi , mini) ; 
     }
     
     int maxAncestorDiff(TreeNode* root) {
-        int maxi = INT_MIN ; 
-        maxAnc(root , maxi) ; 
-        return maxi ; 
+        int maxi = INT_MIN , mini = INT_MAX ; 
+        maxAnc(root , maxi , mini) ; 
+        return ans ; 
     }
 };
