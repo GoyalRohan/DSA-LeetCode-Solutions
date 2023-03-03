@@ -5,14 +5,18 @@ public:
         
         for(int i=0 ; i<=(m-n) ; i++)
         {
-            int count = 0 ; 
+            bool isfound = true ; 
             for(int j = 0 ; j<n ; j++)
             {
-                if(needle[j] == haystack[i+j])
-                    count++ ; 
+                if(needle[j] != haystack[i+j])
+                {
+                    isfound = false ; 
+                    break ;
+                }
+                    
             }
             
-            if(count == n)
+            if(isfound == true)
                 return i  ; 
         }
         
