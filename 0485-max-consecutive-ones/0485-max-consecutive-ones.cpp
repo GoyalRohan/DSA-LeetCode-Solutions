@@ -7,21 +7,18 @@ public:
         
         for(int i=0 ; i<n ; i++)
         {
-            if(last != -1 && last == nums[i])
+            if(nums[i] == 1 )
             {
                 len ++ ; 
                 last = nums[i] ; 
                 maxlen = max(maxlen , len) ; 
             }
-            else if(nums[i] == 1)
-            {
-                len = 1 ; 
-                last = nums[i] ; 
-                maxlen = max(maxlen , len) ;
-            }
             
             else
+            {
+                last = nums[i] ; 
                 len = 0 ; 
+            }
         }
         
         return maxlen ; 
