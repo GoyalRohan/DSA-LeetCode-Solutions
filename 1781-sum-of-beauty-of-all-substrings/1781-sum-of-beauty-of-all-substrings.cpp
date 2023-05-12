@@ -5,32 +5,23 @@ public:
         
         for(int i=0 ; i<n-1 ; i++)
         {
-            unordered_map<char, int> mpp ; 
-            mpp[s[i]]++ ; 
+            vector<int> count(26, 0) ; 
             
-            for(int j=i+1 ; j<n ; j++)
+            for(int j=i ; j<n ; j++)
             {
-                mpp[s[j]]++ ; 
+                count[s[j]- 'a']++ ; 
                 
                 int mini = INT_MAX , maxi = INT_MIN ;
-                char maxchar , minchar ; 
-                for(auto m : mpp)
+                for(int i=0 ; i<26 ; i++)
                 {
-                    if(m.second > maxi)
+                    if(count[i] != 0)
                     {
-                        maxi = m.second ; 
-                        maxchar = m.first ; 
+                        maxi = max(maxi, count[i]) ; 
+                        mini = min(mini, count[i]) ; 
                     }
-                    
-                    if(m.second < mini)
-                    {
-                        mini = m.second ; 
-                        minchar = m.first ; 
-                    }
-                    
                 }
                 
-                sum += mpp[maxchar] - mpp[minchar] ; 
+                sum += maxi - mini ; 
             }
         }
         
