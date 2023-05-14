@@ -15,26 +15,25 @@ public:
     int count = 0 ;
     void solve(TreeNode* root , int maxval)
     {
-        if(root == NULL)
+        if(!root)
             return ; 
+        
         
         if(root->val >= maxval)
         {
             count++ ; 
             maxval = root->val ; 
         }
-         
-        solve(root->left , maxval) ; 
-        solve(root->right , maxval) ;
         
+        solve(root->left, maxval) ; 
+        solve(root->right, maxval) ; 
     }
     
     int goodNodes(TreeNode* root) {
-        if(root == NULL)
-            return 0 ;  
+       if(root == NULL)
+           return 0 ; 
         
-        solve(root, root->val) ; 
-        
+        solve(root , INT_MIN) ; 
         return count ; 
     }
 };
