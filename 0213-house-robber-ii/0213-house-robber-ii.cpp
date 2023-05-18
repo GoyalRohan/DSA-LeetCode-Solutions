@@ -1,31 +1,25 @@
 class Solution {
-public:
-    
-    int f(int ind , vector<int> &vec, vector<int> &dp)
-    {
-        if(ind == 0)
-            return vec[0] ; 
-        
-        if(ind < 0)
-            return INT_MIN ; 
-        
-        if(dp[ind] != -1)
-            return dp[ind] ; 
-        
-        int take = vec[ind] ; 
-        if(ind-2 >= 0)
-         take +=  f(ind-2 , vec , dp) ; 
-        int notTake = 0 + f(ind-1, vec, dp) ; 
-        
-        return dp[ind] = max(take, notTake) ; 
-    }
-    
+public:    
     
     int houseRobber(vector<int> &vec)
     {
         int n = vec.size() ; 
-        vector<int> dp(n , -1) ; 
-        return f(n-1 , vec , dp) ; 
+        vector<int> dp(n , 0) ; 
+        
+        dp[0] = vec[0] ; 
+        for(int ind=1 ; ind<n ; ind++)
+        {
+            int take = vec[ind] ; 
+            if(ind-2 >= 0)
+             take +=  dp[ind-2] ; 
+            int notTake = 0 + dp[ind-1] ; 
+
+            dp[ind] = max(take, notTake) ; 
+        }
+        
+        
+        
+        return dp[n-1]; 
     }
     
     int rob(vector<int>& nums) {
