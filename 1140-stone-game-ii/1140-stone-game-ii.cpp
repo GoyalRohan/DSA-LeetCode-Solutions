@@ -1,28 +1,6 @@
 class Solution {
 public:
     
-    
-    int helper(int ind , int m , vector<int>& piles , vector<int> &suffixSum , vector<vector<int>> &dp)
-    {
-        if(ind >= piles.size())
-            return 0 ;
-                
-        if(ind + 2*m >= piles.size())
-             return suffixSum[ind] ; 
-        
-        if(dp[ind][m] != -1)
-            return dp[ind][m] ; 
-        
-        int result = 0 ; 
-        for(int x=1 ; x <= 2*m ; x++)
-        {
-            result = max(result , suffixSum[ind] - helper(ind + x , max(x , m) , piles , suffixSum , dp)) ; 
-        }
-        
-        return dp[ind][m] = result; 
-            
-    }
-    
     int stoneGameII(vector<int>& piles) {
         int n = piles.size() ; 
         vector<int> suffixSum(n) ; 
@@ -31,8 +9,28 @@ public:
         for(int i=n-2 ; i>=0 ; i--)
             suffixSum[i] = piles[i] + suffixSum[i+1] ; 
         
-        vector<vector<int>> dp(n , vector<int>(n , -1)) ; 
+        vector<vector<int>> dp(n+1 , vector<int>(n+1 , 0)) ; 
         
-        return helper(0 , 1 , piles , suffixSum , dp) ; 
+        for(int i=n-1 ; i>=0 ; i--)
+        {
+            for(int m=1 ; m<=n ; m++)
+            {
+                if(i + 2*m >= n)
+                    dp[i][m] = suffixSum[i] ; 
+                else
+                {
+                    int result = 0 ; 
+                    for(int x=1 ; x <= 2*m ; x++)
+                    {
+                        result = max(result , suffixSum[i] - dp[i+x][max(x,m)]) ;
+                    }
+
+                    dp[i][m] = result; 
+                }
+            }
+        }
+        
+        return dp[0][1] ; 
+        // return helper(0 , 1 , piles , suffixSum , dp) ; 
     }
 };
