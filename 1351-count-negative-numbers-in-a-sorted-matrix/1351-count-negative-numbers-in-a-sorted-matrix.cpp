@@ -3,11 +3,17 @@ public:
     int countNegatives(vector<vector<int>>& grid) {
         
         int ans = 0 ; 
-        int m = grid[0].size() ; 
+        int m = grid.size() , n = grid[0].size() ; 
         
-        for (auto row : grid)
+        int r=0 , c = n-1 ; 
+        
+        while(r < m)
         {
-            ans += upper_bound(row.rbegin() , row.rend() , -1) - row.rbegin() ; 
+            while(c >= 0 && grid[r][c] < 0)
+                c-- ; 
+            
+            ans += n - c - 1 ; 
+            r++ ;
         }
         
         return ans ; 
