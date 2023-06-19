@@ -11,27 +11,29 @@ using namespace std;
 class Solution{
   public:
   
-    int solve(int ind , int n , int price[] , vector<vector<int>> &dp)
+    int solve(int n , int price[] , vector<int> &dp)
     {
-        if(ind == 0)
-            return n * price[0] ; 
+        if(n <= 0)
+            return 0 ; 
             
-        if(dp[ind][n] != -1)
-            return dp[ind][n] ; 
+        if(dp[n] != -1)
+            return dp[n] ; 
+          
+        int maxi = 0 ;   
+        for(int i=1 ; i<=n ; i++)
+        {
+            int cost = price[i-1] + solve(n-i , price , dp) ; 
+            maxi = max(maxi, cost) ; 
+        }
         
-        int notTake = solve(ind-1 , n , price , dp) ; 
-        int take = 0 ; 
-        int rodlength = ind+ 1;
-        if(rodlength <= n)
-            take = price[ind] + solve(ind , n - rodlength , price , dp) ; 
-            
-        return dp[ind][n] = max(take , notTake) ; 
+        return dp[n] =  maxi ; 
     }
   
     int cutRod(int price[], int n) {
         //code here
-        vector<vector<int>> dp(n , vector<int>(n+1 , -1)) ;  
-        return solve(n-1 , n , price , dp) ; 
+        // vector<vector<int>> dp(n , vector<int>(n+1 , -1)) ;  
+        vector<int> dp(n+1 , -1) ; 
+        return solve( n , price , dp) ; 
     }
 };
 
