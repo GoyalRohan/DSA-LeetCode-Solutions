@@ -7,6 +7,7 @@ public:
         {
             int cost = prices[i] - mini ; 
             profit = max(profit , cost) ; 
+            // cout<<profit<<" " ;
             
             mini = min(mini , prices[i]) ; 
         }
