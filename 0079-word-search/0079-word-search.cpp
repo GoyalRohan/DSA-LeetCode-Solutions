@@ -1,47 +1,58 @@
 class Solution {
 public:
     
-    bool solve(int i, int j, int x,  string &word, vector<vector<char>>& board)
+    bool solve(int i , int j, vector<vector<char>>& board, string word)
     {
-        if(x == word.size())
+        if(word.size() == 0)
             return true ; 
         
-        if(i >= board.size() || j >= board[0].size())
+        if(i<0 || j<0 || i>= board.size() || j >= board[0].size())
             return false ; 
         
-        if(board[i][j] == '0' || board[i][j] != word[x])
+        if(board[i][j] != word[0] || board[i][j] == '0')
             return false ; 
         
         char temp = board[i][j] ; 
         board[i][j] = '0' ; 
-        bool up = solve(i+1 , j , x+1 , word , board) ; 
-        bool down = solve(i-1 , j , x+1 , word , board) ;
-        bool left = solve(i , j-1 , x+1 , word , board) ;
-        bool right = solve(i , j+1 , x+1 , word , board) ;
+        
+        bool up = solve(i-1 , j , board , word.substr(1)) ; 
+        bool down = solve(i+1 , j , board , word.substr(1)) ; 
+        bool left = solve(i , j-1 , board , word.substr(1)) ; 
+        bool right = solve(i , j+1 , board , word.substr(1)) ; 
         
         board[i][j] = temp ; 
         
-        return (up || down || left || right) ; 
+        if(up || down || left || right)
+            return true ; 
         
+        return false ; 
     }
     
-    bool exist(vector<vector<char>>& board, string word) { 
+    bool exist(vector<vector<char>>& board, string word) {
+        int n = board.size() , m = board[0].size() ; 
+        queue<pair<int, int>> q ; 
         
-        for(int i=0 ; i<board.size() ; i++)
+        for(int i=0 ; i<n ; i++)
         {
-            for(int j=0 ; j<board[0].size() ; j++)
+            for(int j=0 ; j<m ; j++)
             {
                 if(board[i][j] == word[0])
                 {
-                    if(solve(i , j , 0 , word , board))
-                        return true ;
+                    q.push({i , j}) ; 
                 }
-                   
             }
         }
         
-         
+        while(!q.empty())
+        {
+            int i = q.front().first , j = q.front().second ; 
+            q.pop() ; 
+            
+            if(solve(i , j, board, word))
+                return true ; 
+        }
         
         return false ; 
+        
     }
 };
