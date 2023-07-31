@@ -4,25 +4,25 @@ public:
         int n = nums.size() ; 
         vector<int> ans ; 
         // priority_queue<pair<int, int> , vector<pair<int , int>> , greater<pair<int, int>>> pq ;
-        priority_queue<pair<int, int>> pq ; 
+        // priority_queue<pair<int, int>> pq ; 
+        deque<pair<int, int>> dq ; 
         
-        for(int i=0 ; i<k-1 ; i++)
-        {
-            pq.push({nums[i] , i}) ; 
-        }
         
-        for(int i=k-1 ; i<n ; i++)
+        for(int i=0 ; i<n ; i++)
         {
-            pq.push({nums[i] , i}) ; 
-            while(!pq.empty() && pq.top().second < i-k+1)
+            
+            if(!dq.empty() && i-k+1 > dq.front().second)
+                dq.pop_front() ; 
+             
+            while(!dq.empty() && dq.back().first < nums[i])
             {
-                pq.pop() ; 
+                dq.pop_back() ; 
             }
             
-            if(!pq.empty())
-            {
-                ans.push_back(pq.top().first) ; 
-            }
+            dq.push_back({nums[i] , i}) ; 
+            
+            if(i >= k-1)
+                ans.push_back(dq.front().first) ; 
         }
         
         return ans ;
