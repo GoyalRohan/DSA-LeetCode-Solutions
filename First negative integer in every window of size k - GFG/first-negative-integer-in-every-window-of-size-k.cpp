@@ -32,15 +32,16 @@ int main() {
 vector<long long> printFirstNegativeInteger(long long int A[],
                                              long long int N, long long int k) {
       
-    priority_queue<pair<long long int, long long int> , vector<pair<long long int , long long int>> , greater<pair<long long int, long long int>>> pq ; 
-    long long int i = 0 ; 
+
+    queue<long long int> q ;   
+    long long int i=0 ; 
     
     for(i=0 ; i<k-1 ; i++)
     {
         if(A[i] < 0)
         {
             // cout<<A[i]<<endl ; 
-            pq.push({i , A[i]}) ; 
+            q.push(A[i]) ; 
         }
             
     }
@@ -49,14 +50,13 @@ vector<long long> printFirstNegativeInteger(long long int A[],
     for(i=k-1 ; i<N ; i++)
     {
         if(A[i] < 0)
-            pq.push({i , A[i]}) ; 
+            q.push(A[i]) ;  
             
-        while(!pq.empty() && pq.top().first < i-k+1)
-            pq.pop() ; 
-            
-        if(!pq.empty())
+        if(!q.empty())
         {
-            ans.push_back(pq.top().second) ; 
+            ans.push_back(q.front()) ; 
+            if(q.front() == A[i-k+1])
+                q.pop() ; 
         }
         else
             ans.push_back(0) ; 
