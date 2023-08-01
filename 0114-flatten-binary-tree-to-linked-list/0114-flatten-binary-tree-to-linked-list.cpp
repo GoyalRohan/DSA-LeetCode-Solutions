@@ -12,7 +12,7 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
-        if(root == NULL)
+        if(!root)
             return  ; 
         
         stack<TreeNode*> st ; 
@@ -21,22 +21,17 @@ public:
         while(!st.empty())
         {
             TreeNode *cur = st.top() ; 
-            st.pop() ;
+            st.pop() ; 
             
             if(cur->right)
-            {
-                st.push(cur->right) ; 
-            }
-            
+                st.push(cur->right) ;
             if(cur->left)
-            {
-                st.push(cur->left) ;
-            }
-            
+                st.push(cur->left) ; 
+             
             if(!st.empty())
                 cur->right = st.top() ; 
-            cur->left = NULL ; 
+            cur->left = NULL; 
+            
         }
-        
     }
 };
