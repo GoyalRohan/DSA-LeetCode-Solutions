@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    void solve(int i, int k, int n, vector<vector<int>> &ans, vector<int> temp)
+    void solve(int i, int k, int n, vector<vector<int>> &ans, vector<int> &temp)
     { 
         if(k==0)
         {
