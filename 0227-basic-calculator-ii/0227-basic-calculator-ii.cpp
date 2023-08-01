@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> st ; 
+        char curchar  ; 
+        int curno = 0 ; 
+        char operation = '+' ; 
+        
+        for(int i=0 ; i<s.size() ; i++)
+        {
+            curchar = s[i] ; 
+            if(isdigit(curchar))
+            {
+                curno = curno*10 + (curchar - '0') ; 
+            }
+            
+            if((!isdigit(curchar) && !iswspace(curchar)) || i==s.size()-1)
+            {
+                if(operation == '+')
+                    st.push(curno) ; 
+                else if(operation == '-')
+                    st.push(-curno) ; 
+                else if(operation == '*')
+                {
+                    int last = st.top() ; st.pop() ; 
+                    st.push(last * curno) ; 
+                }
+                else if(operation == '/')
+                {
+                    int last = st.top() ; st.pop() ; 
+                    st.push(last / curno) ;
+                }
+                
+                curno= 0 ; 
+                operation = curchar ; 
+            }
+        }
+        
+        int result = 0 ; 
+        while(!st.empty())
+        {
+            result += st.top() ; 
+            st.pop() ; 
+        }
+        
+        return result ; 
+    }
+};
