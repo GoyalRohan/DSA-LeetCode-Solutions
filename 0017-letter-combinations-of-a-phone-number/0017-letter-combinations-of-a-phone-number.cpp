@@ -3,35 +3,34 @@ public:
     
     string mapping[10] = {"", "", "abc", "def", "ghi", "jkl","mno","pqrs","tuv","wxyz"};
     
-    void solve(int index , string ans , string digits , vector<string> &final)
+    void solve(int ind, string temp , string digits, vector<string> &ans)
     {
-        if(index == digits.size())
-        {
-            final.push_back(ans) ; 
-            return ;
-        }
+            if(ind >= digits.size())
+            {
+                ans.push_back(temp) ; 
+                return ; 
+            }
         
+            string str = mapping[digits[ind]-'0'] ; 
+            
+            for(int i=0 ; i<str.size() ; i++)
+            {
+                temp += str[i] ; 
+                solve(ind+1 , temp , digits , ans) ; 
+                temp.pop_back() ; 
+            }
         
-        string word = mapping[digits[index] - '0'] ;
-        
-        for(int i=0 ; i<word.size() ; i++)
-        {
-            ans.push_back(word[i]) ; 
-            solve(index+1 , ans , digits , final) ; 
-            ans.pop_back() ; 
-        }
     }
     
+    
     vector<string> letterCombinations(string digits) {
-        vector<string> final ; 
-        
+        vector<string> ans ; 
         if(digits.size() == 0)
-            return final ; 
+            return ans ; 
         
+        string temp = "" ; 
+        solve(0 , temp , digits, ans) ; 
+        return ans ; 
         
-        string ans = "" ; 
-        solve(0 , ans , digits , final) ;
-        
-        return final ;
     }
 };
