@@ -10,48 +10,30 @@ class Solution
         vector <int> search(string pat, string txt)
         {
             //code hee.
-            int m = pat.size() ; 
             int n = txt.size() ; 
-            vector<int> lps(m , 0) ; 
+            int m = pat.size() ; 
+            vector <int>  ans ; 
             
-            for(int i=1 ; i<m ; i++)
-            {
-                int j = lps[i-1] ;
-                
-                while(j>0 && pat[i] != pat[j])
-                    j = lps[j-1] ; 
-                    
-                if(pat[i] == pat[j])
-                    j++ ;
-                    
-                lps[i] = j ; 
-                
-            }
-            
-            vector<int> ans ; 
             int i=0 , j = 0 ; 
-            
-            while(i<n)
+            while(i <= n-m)
             {
-                if(txt[i] == pat[j])
+                int newi = i ; 
+                int j=0 ; 
+                while(newi<n && j<m && txt[newi] == pat[j])
                 {
-                    i++ ; j++ ; 
+                    newi++ ; j++ ; 
                 }
                 
-                if(j == m)
-                {
-                    ans.push_back(i - (m-1)) ; 
-                    j = lps[j-1] ; 
-                }
-                else if(txt[i] != pat[j])
-                {
-                    if(j ==0)
-                        i++ ; 
-                    j = lps[j-1] ; 
-                }
-                    
+                if(j==m)
+                    ans.push_back(i+1); 
+
+                i++ ; 
             }
             
+            if(ans.size() > 0)
+                return ans ; 
+                
+            ans.push_back(-1) ; 
             return ans ; 
         }
      
