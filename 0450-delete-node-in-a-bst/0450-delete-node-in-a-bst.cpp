@@ -12,63 +12,60 @@
 class Solution {
 public:
     
-    TreeNode *findLastRight(TreeNode* root)
+    TreeNode *findLast(TreeNode *root)
     {
-        while(!root->right)        
-            return root ;
+        while(root->right)
+            root = root->right ; 
         
-        return findLastRight(root->right) ; 
+        return root ; 
     }
     
-    TreeNode *helper(TreeNode* root)
+    TreeNode *helper(TreeNode *root)
     {
-        if(!root->right)
-            return root->left ; 
-        else if(!root->left)
+        if(!root->left)
             return root->right ; 
+        if(!root->right)
+            return root->left ;
         
-        TreeNode *rightnode = root->right ; 
-        TreeNode *lastRight = findLastRight(root->left) ; 
-        
-        lastRight->right = rightnode ; 
+        TreeNode *rightChild = root->right ; 
+        TreeNode *lastRight = findLast(root->left) ; 
+        lastRight->right = rightChild ; 
         
         return root->left ; 
     }
     
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if(root == NULL)
+        if(!root)
             return NULL ; 
         
         if(root->val == key)
-            return helper(root) ; 
+            return helper(root) ;
         
-        TreeNode *dummy = root ; 
-        
-        while(root)
+        TreeNode *cur = root ; 
+        while(cur)
         {
-            if(root->val >= key)
+            if(key < cur->val)
             {
-                if(root->left && root->left->val == key)
+                if(cur->left && cur->left->val == key)
                 {
-                    root->left = helper(root->left) ; 
-                    break ; 
+                    cur->left = helper(cur->left) ; 
+                    return root ; 
                 }
                 else
-                    root = root->left ; 
+                    cur = cur->left ; 
             }
             else
             {
-                if(root->right && root->right->val == key)
+                if(cur->right && cur->right->val == key)
                 {
-                    root->right = helper(root->right) ; 
-                    break ; 
+                    cur->right = helper(cur->right) ; 
+                    return root ; 
                 }
                 else
-                    root = root->right ; 
+                    cur = cur->right ; 
             }
-            
         }
         
-        return dummy ; 
+        return root ; 
     }
 };
