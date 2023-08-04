@@ -6,6 +6,31 @@ using namespace std;
 // } Driver Code Ends
 class Solution
 {
+    vector<int> fillLps(string pat , int m)
+    {
+        vector<int> lps(m , 0) ;
+        int len = 0 ; 
+        
+        for(int i=1 ; i<m ; i++)
+        {
+            if(pat[i] == pat[len])
+            {
+                len++ ; 
+                lps[i] = len ; 
+            }
+            else
+            {
+                if(len == 0)
+                    lps[i] = 0 ; 
+                else
+                    len = lps[len-1] ; 
+            }
+        }
+        
+        return lps ; 
+        
+    }
+    
     public:
         vector <int> search(string pat, string txt)
         {
@@ -14,20 +39,27 @@ class Solution
             int m = pat.size() ; 
             vector <int>  ans ; 
             
-            int i=0 , j = 0 ; 
-            while(i <= n-m)
+            vector<int> lps = fillLps(pat , m) ; 
+            
+            int i=0 , j= 0 ;
+            while(i<n)
             {
-                int newi = i ; 
-                int j=0 ; 
-                while(newi<n && j<m && txt[newi] == pat[j])
+                if(txt[i] == pat[j]) 
                 {
-                    newi++ ; j++ ; 
+                    i++ ; j++ ; 
+                    if(j == m)
+                    {
+                        ans.push_back(i-m+1) ; 
+                        j = lps[j-1] ; 
+                    }
                 }
-                
-                if(j==m)
-                    ans.push_back(i+1); 
-
-                i++ ; 
+                else
+                {
+                    if(j == 0)
+                        i++ ; 
+                    else
+                        j = lps[j-1] ; 
+                }
             }
             
             if(ans.size() > 0)
