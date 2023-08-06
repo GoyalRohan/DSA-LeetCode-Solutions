@@ -8,11 +8,19 @@ public:
         
         for(int pos = 12 ; pos>=0 && num>0 ; pos--)
         {
-            while(num >= val[pos])
-            {
-                num = num - val[pos] ; 
-                ans += notation[pos] ; 
-            }
+            
+                int temp = num/val[pos] ; 
+                if(temp == 0)
+                    continue ; 
+            
+                num = num%val[pos] ; 
+                while(temp>0)
+                {
+                    ans += notation[pos] ; 
+                    temp-- ; 
+                }
+
+                
         }
         
         return ans ; 
