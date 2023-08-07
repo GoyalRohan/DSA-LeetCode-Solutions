@@ -11,7 +11,8 @@
  */
 class Solution {
 public:
-    TreeNode *first = NULL, *prev = NULL,  *middle = NULL , *last = NULL ; ; 
+    
+   TreeNode *first = NULL, *prev = NULL,  *middle = NULL , *last = NULL ; ; 
     
     void inorder(TreeNode *root)
     {
