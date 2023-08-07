@@ -99,45 +99,37 @@ struct Node {
     }
 };*/
 
-
-class nodeval {
-    
-    public : 
-    
-    int maxsize ; 
-    int minnode ; 
-    int maxnode ; 
-    
-    nodeval(int maxsize, int minnode, int maxnode)
-    {
-        this->maxsize = maxsize ; 
-        this->minnode = minnode ; 
-        this->maxnode = maxnode ; 
-    }
-}; 
-
 class Solution{
     public:
     /*You are required to complete this method */
     // Return the size of the largest sub-tree which is also a BST
     
-    nodeval *solve(Node *root)
+    class nodeInfo {
+        
+        public : 
+        int maxsize ; 
+        int maxnode ; 
+        int minnode ; 
+        
+        nodeInfo(int size , int lnode , int rnode)
+        {
+            maxsize = size ; minnode = lnode ; maxnode = rnode ;
+        }
+    } ; 
+    
+    nodeInfo *solve(Node* root)
     {
         if(root == NULL)
-            return new nodeval(0 , INT_MAX , INT_MIN) ; 
+            return new nodeInfo(0 , INT_MAX , INT_MIN) ; 
             
         auto leftInfo = solve(root->left) ; 
-        auto rightInfo = solve(root->right) ;
+        auto rightInfo = solve(root->right) ; 
         
-        if(leftInfo->maxnode < root->data && rightInfo->minnode > root->data)
-        {
-            return new nodeval(1 + leftInfo->maxsize + rightInfo->maxsize , min(root->data, leftInfo->minnode) , max(root->data, rightInfo->maxnode)) ; 
-        }
-        
+        if(leftInfo->maxnode < root->data && rightInfo->minnode > root->data )
+            return new nodeInfo(1 + leftInfo->maxsize + rightInfo->maxsize , min(root->data , leftInfo->minnode) , max(root->data , rightInfo->maxnode)) ; 
+    
         else
-        {
-            return new nodeval(max(leftInfo->maxsize, rightInfo->maxsize) , INT_MIN, INT_MAX) ; 
-        }
+            return new nodeInfo(max(leftInfo->maxsize , rightInfo->maxsize) , INT_MIN , INT_MAX) ;
         
     }
     
@@ -145,7 +137,6 @@ class Solution{
     {
     	//Your code here
     	return solve(root)->maxsize ; 
-    	
     }
 };
 
