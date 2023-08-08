@@ -1,34 +1,57 @@
 class Solution {
 public:
     
-    int bsearch(int s , int e , int target, vector<int>& nums)
+    int findPivot(int start , int end , vector<int>& nums)
     {
-        if(s > e)
-            return -1 ; 
-        
-        int mid = (s+ e)/2 ; 
-        
-        if(target == nums[mid])
-            return mid ; 
-        
-        if(nums[s] <= nums[mid])
+        while(start <= end)
         {
-            if(target >= nums[s] && target <= nums[mid])
-                return bsearch(s , mid-1 , target, nums) ; 
+            int mid = start + (end-start)/2 ; 
+            if(mid < end && nums[mid] > nums[mid+1])
+                return mid ; 
+            if(mid > start && nums[mid-1] > nums[mid])
+                return mid-1 ; 
+            
+                
+            if(nums[start] >= nums[mid])
+                end = mid-1 ; 
             else
-                return bsearch(mid+1 , e , target , nums) ; 
+                start = mid+1 ; 
         }
+        return -1 ; 
         
-        else if(target >= nums[mid] && target <= nums[e])
-            return bsearch(mid+1 , e , target, nums) ; 
-        
-        else return bsearch(s , mid-1 , target , nums) ; 
     }
     
+    int Bsearch(int start , int end , vector<int> &nums , int target)
+    {
+        while(start <= end)
+        {
+            int mid = start + (end-start)/2 ;
+            if(target == nums[mid])
+                return mid ; 
+            else if(target > nums[mid])
+                start = mid+1 ; 
+            else 
+                end = mid-1 ; 
+        }
+        return -1 ; 
+    }
+    
+    
     int search(vector<int>& nums, int target) {
-        int n = nums.size() ; 
-        int s = 0 , e = nums.size() - 1 ; 
+        int n = nums.size()  ; 
         
-        return bsearch(s , e , target , nums) ; 
+        
+        int pivot = findPivot(0 , n-1 , nums) ; 
+        
+        if(pivot == -1)
+            return Bsearch(0 , n-1 , nums , target) ; 
+        
+        if(target == nums[pivot] )
+            return pivot ; 
+         if(target >= nums[0] )
+             return Bsearch(0 , pivot-1 , nums , target) ; 
+        
+            return Bsearch(pivot+1 , n-1 , nums , target) ; 
+        
     }
 };
