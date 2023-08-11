@@ -12,8 +12,11 @@ public:
         for(int i= 0; i<n-1 ; i++)
         {
             unordered_map<double , int> mpp ; 
-            for(int j=i+1 ; j<n ; j++)
+            for(int j=0 ; j<n ; j++)
             {
+                if(i == j)
+                    continue ;
+                
                 if(points[j][0] == points[i][0])
                 {
                      mpp[maxpoint]++ ;  
