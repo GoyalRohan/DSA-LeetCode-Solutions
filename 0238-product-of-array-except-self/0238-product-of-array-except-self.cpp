@@ -2,21 +2,21 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size() ; 
-        vector<int> right(n , 1) , output(n) ; 
+        vector<int> output(n) ; 
         
         int prod = 1 ; 
-        for(int i=n-1 ; i>=0 ; i--)
+        for(int i=0 ; i<n ; i++)
         {
-            right[i] = prod ; 
+            output[i] = prod ; 
             prod = prod * nums[i] ; 
         }
         
         
         prod = 1 ; 
         
-        for(int i=0 ; i<n ; i++)
+        for(int i=n-1 ; i>=0 ; i--)
         {
-            output[i] = prod * right[i] ; 
+            output[i] = prod * output[i] ; 
             prod = prod * nums[i] ; 
         }
         
