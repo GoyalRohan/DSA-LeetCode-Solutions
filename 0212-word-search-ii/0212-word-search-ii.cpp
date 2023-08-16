@@ -1,95 +1,83 @@
-class Solution {
+class TrieNode {
 public:
     
-    struct node 
-    {
-        char c ; 
-        node *child[26] ; 
-        int ends  ; 
-        string word ; 
-    };
-    
-    node *getnode(char ch)
-    {
-        node *newnode = new node ; 
-        newnode->c = ch ; 
-        for(int i=0; i<26 ; i++)
-            newnode->child[i] = NULL ; 
-        
-        newnode->ends = 0 ; 
-        newnode->word = "" ; 
-        
-        return newnode ; 
-    }
-    
-    node *root = getnode('/') ; 
-    
-    void insert(string s)
-    {
-        node *cur = root ; 
-        int i=0 ;
-        while(s[i])
-        {
-            int index = s[i] - 'a' ; 
-            if(cur->child[index] == NULL)
-            {
-                cur->child[index] = getnode(s[i]) ; 
-            }
+    TrieNode *children[26];
+    string word;
 
-            cur = cur->child[index] ; 
-            i++ ;
+    TrieNode(){
+        word = "";
+        for (int i = 0; i < 26; i++) {
+            children[i] = NULL;
         }
-        
-        cur->ends = 1 ; 
-        cur->word = s ; 
+    }
+};
+
+class Trie {
+public:
+    
+    TrieNode *root;
+    Trie(){
+        root = new TrieNode();
     }
     
-    void solve(int i, int j, int r, int c ,vector<string> &ans ,vector<vector<char>>& board, vector<string>& words , node *cur )
+    /** Inserts a word into the trie. */
+    void insert(string &s) 
     {
-        int index = board[i][j] - 'a' ; 
-        if(board[i][j] == '$' || cur->child[index] == NULL)
-            return ; 
-        
-        cur = cur->child[index] ; 
-        
-        if(cur->ends > 0)
+        TrieNode *cur = root;
+        for(int i = 0; i < s.size(); i++) 
         {
-            ans.push_back(cur->word) ; 
-            cur->ends -= 1 ; 
+            char c = s[i] - 'a';
+            if (cur->children[c] == NULL) 
+            {
+                cur->children[c] = new TrieNode();
+            }
+            cur = cur->children[c];
         }
+        cur->word = s;
+    }
+};
+
+class Solution {
+public:
+
+    void dfs(vector<vector<char>> &board, int i, int j, TrieNode *p, vector<string> &ans) 
+    {
+        if(i<0 or i>=board.size() or j<0 or j>=board[0].size()) return;
+            
+        char c = board[i][j];
+        if(c == '#' or !p->children[c - 'a']) return;
         
-        char ch = board[i][j] ; 
-        board[i][j] = '$' ; 
-        
-        if(i > 0)
-            solve(i-1 , j , r , c , ans, board , words , cur) ; 
-        if(i < r-1)
-            solve(i+1 , j , r , c , ans, board , words , cur) ; 
-        if(j > 0)
-            solve(i , j-1 , r , c , ans, board , words , cur) ; 
-        if(j < c-1)
-            solve(i , j+1 , r , c , ans, board , words , cur) ; 
-        
-        board[i][j] = ch ; 
+        p = p->children[c - 'a'];
+        if (p->word.size() > 0) 
+        {
+            ans.push_back(p->word);
+            p->word = "";
+        }
+
+        board[i][j] = '#';
+        dfs(board, i - 1, j, p, ans);
+        dfs(board, i, j - 1, p, ans);
+        dfs(board, i + 1, j, p, ans);
+        dfs(board, i, j + 1, p, ans);
+        board[i][j] = c;
     }
     
-    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
-        for(auto word : words)
-            insert(word) ; 
+    vector<string> findWords(vector<vector<char>> &board, vector<string> &words) 
+    {
+        // insert all words into the trie
+        Trie *trie = new Trie();
+        for(int i=0;i<words.size();i++){
+            trie->insert(words[i]);
+        }
         
-        int r = board.size() ; 
-        int c = board[0].size() ; 
-        
-        vector<string> ans ; 
-        
-        for(int i=0 ; i<r ; i++)
-        {
-            for(int j=0 ; j<c ; j++)
-            {
-                solve(i , j , r , c , ans , board , words , root) ; 
+        vector<string>ans;
+        for(int i=0;i<board.size();i++) {
+            for(int j=0;j<board[0].size();j++) {
+                // start form every cell of board
+                dfs(board, i, j, trie->root, ans);
             }
         }
-        
-        return ans ; 
-    }   
+        return ans;
+    }
+    
 };
