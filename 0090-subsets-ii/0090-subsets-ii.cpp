@@ -1,29 +1,32 @@
 class Solution {
 public:
     
-    void solve(int ind , vector<int> &output , vector<int>& nums , vector<vector<int>> &result)
+    void solve(int ind, vector<int> &nums, int n , vector<int> &output , vector<vector<int>> &ans)
     {
-        if(ind == nums.size())
+        if(ind == n)
         {
-            result.push_back(output) ; 
+            ans.push_back(output) ; 
             return ; 
         }
         
         output.push_back(nums[ind]) ; 
-        solve(ind+1 , output , nums, result) ; 
+        solve(ind+1 , nums, n , output , ans) ;
         output.pop_back() ; 
         
-        while(ind+1 < nums.size() && nums[ind] == nums[ind+1])
-            ind++ ; 
-        solve(ind+1 , output, nums, result) ; 
+        
+        while(ind <n-1 && nums[ind+1] == nums[ind])
+            ind++ ;
+        solve(ind+1 , nums, n , output , ans) ; 
+        
+         
     }
     
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        vector<vector<int>> result ; 
+        vector<vector<int>> ans ; 
         vector<int> output ; 
-        
-        sort(nums.begin() , nums.end()) ; 
-        solve(0 , output , nums , result) ;
-        return result ;
+        int n = nums.size() ; 
+        sort(nums.begin() , nums.end()) ;
+        solve(0 , nums , n , output , ans) ; 
+        return ans ; 
     }
 };
