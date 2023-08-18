@@ -24,7 +24,7 @@ public:
                 
                 int sum = mpp[i].size() + mpp[j].size() ; 
                 
-                if(mpp[i].find(j) != mpp[i].end())
+                if(mpp[i].count(j))
                     sum-- ;
                 
                 maxi = max(maxi , sum) ; 
