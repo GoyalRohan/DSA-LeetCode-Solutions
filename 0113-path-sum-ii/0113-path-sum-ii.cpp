@@ -14,7 +14,7 @@ public:
     
     vector<vector<int>> ans ; 
     
-    void solve(TreeNode *root , int sum , int targetSum , vector<int> output)
+    void solve(TreeNode *root , int &sum , int &targetSum , vector<int> &output)
     {
         if(root == NULL)
             return ; 
@@ -26,17 +26,21 @@ public:
         {  
             if(sum == targetSum)
                 ans.push_back(output) ; 
-            return ; 
+            // return ; 
         }
         
         solve(root->left , sum , targetSum , output) ; 
         solve(root->right , sum , targetSum , output) ; 
+        
+        sum -= root->val ; 
+        output.pop_back() ; 
     }
     
     
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<int> output ; 
-        solve(root , 0 , targetSum , output) ; 
+        vector<int> output ;
+        int sum = 0 ; 
+        solve(root , sum , targetSum , output) ; 
         return ans ;
     } 
 };
