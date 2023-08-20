@@ -19,18 +19,15 @@ public:
         if(root == NULL)
             return ; 
         
+        sum += root->val ; 
+        output.push_back(root->val) ; 
+        
         if(!root->left && !root->right)
-        {
-            sum += root->val ; 
-            output.push_back(root->val) ; 
-            
+        {  
             if(sum == targetSum)
                 ans.push_back(output) ; 
             return ; 
         }
-        
-        sum += root->val ; 
-        output.push_back(root->val) ; 
         
         solve(root->left , sum , targetSum , output) ; 
         solve(root->right , sum , targetSum , output) ; 
