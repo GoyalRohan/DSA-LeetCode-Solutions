@@ -8,16 +8,19 @@ class Solution {
     bool isPossible(long long a[], long long b[], int n, long long k) {
         // Your code goes here
         sort(a , a+n) ; 
-        sort(b , b+n , greater<long long> ()) ; 
+        sort(b , b+n) ; 
         
-        for(int i=0 ; i<n ; i++)
-        {
-            if(a[i] + b[i] < k)
-                return false ; 
+        int left = 0 , right = n-1 ; 
+        
+        while (left < n && right >= 0) {
+        if (a[left] + b[right] < k) {
+            return false;
         }
+        left++;
+        right--;
+    }
         
         return true ; 
-        
     }
 };
 
