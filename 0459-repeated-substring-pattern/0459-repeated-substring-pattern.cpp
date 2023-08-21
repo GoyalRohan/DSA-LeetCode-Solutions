@@ -1,23 +1,24 @@
 class Solution {
 public:
     
-    string temp1 = "" ; 
     
     bool repeatedSubstringPattern(string s) {
         int n = s.size() ; 
         
-        for(int i=0 ; i<n-1 ; i++)
+        for(int i=n/2 ; i>=1 ; i--)
         {
-            temp1 += s[i] ; 
-            string temp2 = temp1 ; 
-            
-            while(temp2.size() < n)
+            if(n % i == 0)
             {
-                temp2 += temp1 ; 
+                string temp = s.substr(0 , i) ; 
+                // cout
+                string newstr = "" ; 
+                for(int j=1 ; j<=n/i ; j++)
+                    newstr += temp ; 
+                
+                if(newstr == s)
+                    return true ; 
+                    
             }
-            
-            if(temp2 == s)
-                return true ; 
         }
         
         return false ; 
