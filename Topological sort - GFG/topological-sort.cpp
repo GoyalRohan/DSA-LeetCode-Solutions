@@ -10,26 +10,26 @@ class Solution
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
 	    // code here
-	    vector<int> indegree(V , 0) , topo ;
-	    queue<int> q ;
-	    
+	    vector<int> indegree(V , 0) ; 
 	    for(int i=0 ; i<V ; i++)
 	    {
-	        for(auto ele : adj[i])
-	            indegree[ele]++ ; 
+	        for(auto it : adj[i])
+	            indegree[it]++ ; 
 	    }
 	    
+	    queue<int> q ; 
 	    for(int i=0 ; i<V ; i++)
 	    {
 	        if(indegree[i] == 0)
-	            q.push(i) ;
+	            q.push(i) ; 
 	    }
 	    
+	    vector<int> result ; 
 	    while(!q.empty())
 	    {
 	        int node = q.front() ; 
 	        q.pop() ; 
-	        topo.push_back(node) ; 
+	        result.push_back(node) ; 
 	        
 	        for(auto it : adj[node])
 	        {
@@ -39,7 +39,8 @@ class Solution
 	        }
 	    }
 	    
-	    return topo ;
+	    return result ; 
+	    
 	}
 };
 
