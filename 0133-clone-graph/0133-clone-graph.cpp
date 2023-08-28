@@ -21,41 +21,41 @@ public:
 
 class Solution {
 public:
-    void dfs(Node* cur , Node *node ,vector<Node*> &vis)
+    
+    void dfs(Node *cur , Node *node , vector<Node*> &vis)
     {
-        vis[node->val] = node ; 
+        vis[cur->val] = node ; 
         for(auto ele : cur->neighbors)
         {
             if(vis[ele->val] == NULL)
             {
-                Node* newnode = new Node(ele->val) ; 
+                Node *newnode = new Node(ele->val) ; 
                 node->neighbors.push_back(newnode) ; 
-                dfs(ele, newnode, vis) ; 
+                dfs(ele , newnode , vis) ; 
             }
             else
-                node->neighbors.push_back(vis[ele->val]) ;
+                node->neighbors.push_back(vis[ele->val]) ; 
         }
     }
     
     Node* cloneGraph(Node* node) {
         if(node == NULL)
-            return NULL ; 
+            return node ; 
         
-        vector<Node*> vis(1000, NULL) ; 
-        
-        Node* copy = new Node(node->val) ;
+        vector<Node*> vis(101 , NULL) ; 
+        Node *copy = new Node(node->val)  ;
         vis[node->val] = copy ; 
         
-        for(auto cur : node->neighbors)
+        for(auto ele : node->neighbors)
         {
-            if(vis[cur->val] == NULL)
+            if(vis[ele->val] == NULL)
             {
-                Node *newnode = new Node(cur->val) ; 
+                Node *newnode = new Node(ele->val) ; 
                 copy->neighbors.push_back(newnode) ; 
-                dfs(cur, newnode , vis) ; 
+                dfs(ele , newnode , vis) ; 
             }
             else
-                copy->neighbors.push_back(vis[cur->val]) ; 
+                copy->neighbors.push_back(vis[ele->val]) ; 
         }
         
         return copy ; 
