@@ -1,46 +1,45 @@
 class Solution {
 public:
     
-    void dfs(int node , vector<int> &vis, set<int> &safe, vector<vector<int>>& graph)
+    bool dfs(int node , vector<int> &vis, vector<int> &dfsvis, vector<int> &isPresentCycle, vector<vector<int>>& graph)
     {
         vis[node] = true ; 
-        bool allsafe = true ; 
+        dfsvis[node] = true; 
         
         for(auto it : graph[node])
         {
             if(!vis[it])
             {
-                dfs(it , vis , safe, graph) ;    
+                if(dfs(it , vis , dfsvis, isPresentCycle, graph)) 
+                    return isPresentCycle[node] = true ; 
             }
-         
-            if(safe.find(it) == safe.end())
-            {
-                allsafe = false ; 
-            }  
+            else if(dfsvis[it])
+                return isPresentCycle[node] = true ; 
+            
         }
         
-        if(allsafe){
-            // cout<<node<<endl ; 
-            safe.insert(node) ;
-        }
+        dfsvis[node] = false ; 
+        return false ; 
              
     }
     
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size() ; 
-        set<int> safe ; 
-        vector<int> vis(n , 0) ; 
+        vector<int> vis(n , 0) , dfsvis(n , 0) , isPresentCycle(n , 0); 
         
         
         for(int i=0 ; i<n ; i++)
         {
             if(vis[i] == 0)
-                dfs(i , vis , safe , graph) ; 
+                dfs(i , vis , dfsvis , isPresentCycle, graph) ; 
         }
         
         vector<int> res ; 
-        for(auto s : safe)
-            res.push_back(s) ; 
+        for(int i=0 ; i<n ; i++)
+        {
+            if(isPresentCycle[i] == false)
+                res.push_back(i) ; 
+        }
         
         return res ; 
     }
