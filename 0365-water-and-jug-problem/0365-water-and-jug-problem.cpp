@@ -1,39 +1,22 @@
 class Solution {
 public:
+    
+    int gcd(int m , int n)
+    {
+        if(n == 0)
+            return m ; 
+        
+        return gcd(n , m%n) ; 
+    }
+    
     bool canMeasureWater(int x, int y, int z) {
         
         if(x+y < z)
             return false ; 
         
-        queue<int> q ; 
-        q.push(0); 
-        unordered_map<int, bool> mpp ; 
-        mpp[0] = true ; 
-        
-        vector<int> dx = {x , -x , y , -y} ; 
-        
-        while(!q.empty())
-        {
-            int node = q.front() ; 
-            q.pop() ; 
-            if(node == z)
-                return true ; 
-            
-            for(int i=0 ; i<4 ; i++)
-            {
-                int temp = node + dx[i] ; 
-                
-                if(temp<0 || temp>x+y || mpp.find(temp) != mpp.end())
-                    continue ; 
-                
-                if(temp == z)
-                    return true ; 
-                
-                q.push(temp) ; 
-                mpp[temp] = true ; 
-            }
-            
-        }
+        int div = gcd(x, y) ; 
+        if(z%div == 0)
+            return true ; 
         
         return false; 
         
