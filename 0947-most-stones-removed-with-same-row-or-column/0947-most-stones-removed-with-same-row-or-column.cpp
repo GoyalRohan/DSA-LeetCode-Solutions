@@ -1,18 +1,16 @@
 class Solution {
 public:
     
-    int dfs(int index , vector<int> &vis, vector<vector<int>>& stones)
+    void dfs(int index , vector<int> &vis, vector<vector<int>>& stones)
     {
         vis[index] = true ; 
-        int result = 0 ; 
         
         for(int i=0 ; i<stones.size() ; i++)
         {
             if(vis[i] == 0 && (stones[index][0] == stones[i][0] || stones[index][1] == stones[i][1] ))
-                result += dfs(i , vis , stones) + 1 ; 
+                dfs(i , vis , stones) ; 
         }
         
-        return result ; 
     }
     
     int removeStones(vector<vector<int>>& stones) {
@@ -23,9 +21,12 @@ public:
         for(int i=0 ; i<n ; i++)
         {
             if(vis[i] == 0)
-                res += dfs(i , vis , stones) ; 
+            {
+                dfs(i , vis , stones) ; 
+                res++ ; 
+            }
         }
         
-        return res ; 
+        return n - res ; 
     }
 };
