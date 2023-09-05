@@ -11,7 +11,8 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode lessDummy(0); // Dummy node for nodes less than x
+        
+         ListNode lessDummy(0); // Dummy node for nodes less than x
     ListNode greaterDummy(0); // Dummy node for nodes greater than or equal to x
     
     ListNode* lessPtr = &lessDummy;
@@ -31,6 +32,6 @@ public:
     lessPtr->next = greaterDummy.next; // Connect less list to greater list
     greaterPtr->next = nullptr; // Mark the end of the combined list
     
-    return lessDummy.next; // Return the head of the combined list
+    return lessDummy.next; 
     }
 };
