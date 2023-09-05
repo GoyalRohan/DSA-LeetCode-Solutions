@@ -15,26 +15,32 @@ public:
         if(!head)
             return NULL ; 
         
-        Node *cur = head ,  *nex , *temp; 
-        
+        Node *cur = head ; 
         while(cur)
         {
-            if(cur->child)
+            if(cur->child == NULL)
             {
-                nex  = cur->next ; 
-                cur->next = cur->child ; 
-                cur->next->prev = cur ; 
-                cur->child = NULL ; 
-                
+                cur = cur->next ; 
+            }
+            else
+            {
+                Node *nex = cur->next ; 
+                cur->next = flatten(cur->child) ; 
+                cur->next->prev= cur ; 
                 Node *temp = cur->next ; 
+                
                 while(temp->next)
+                {
                     temp = temp->next ; 
+                }
+                
                 temp->next = nex ; 
                 if(nex)
-                    nex->prev = temp ; 
+                    nex->prev = temp ; ;
+                cur->child = NULL ; 
+                cur = nex ; 
                 
             }
-            cur = cur->next ;
         }
         
         return head ; 
