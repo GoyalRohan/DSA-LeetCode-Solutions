@@ -1,44 +1,24 @@
 class Solution {
 public:
-    
-    map<pair<int, int> , bool> dp ; 
-    
-    bool solve(int pos , int prevjump ,int n, vector<int>& stones, unordered_set<int> &myset)
-    {
-        // bool isPossible = false ; 
+    bool canCross(vector<int>& stones) {
         
-        if(pos > stones[n-1] || myset.find(pos) == myset.end())
-            return false ; 
+        int n = stones.size() ; 
         
-        if(pos == stones[n-1])
-            return true ; 
+        unordered_map<int, unordered_set<int>> mpp ; 
         
-        if(dp.find({pos, prevjump}) != dp.end())
-            return dp[{pos, prevjump}] ; 
+        mpp[stones[0]+1].insert(1) ; 
         
-        for(int i=-1 ; i<=1 ; i++)
+        for(int i=1 ; i<n ; i++)
         {
-            if(prevjump + i > 0)
+            int position = stones[i] ; 
+            for(auto it : mpp[position])
             {
-                if(solve(pos+prevjump+i , prevjump+i , n, stones, myset))
-                    return dp[{pos+prevjump+i, prevjump+i}] = true ; 
+                mpp[position+it].insert(it) ; 
+                mpp[position+it+1].insert(it+1) ; 
+                mpp[position+it-1].insert(it-1) ; 
             }
         }
         
-        return dp[{pos, prevjump}] = false ; 
-    }
-    
-    bool canCross(vector<int>& stones) {
-        
-        if(stones[1] - stones[0] > 1)
-            return false ; 
-        
-        unordered_set<int> myset ; 
-        int n = stones.size() ; 
-        myset.insert(stones.begin(), stones.end()) ; 
-        
-        
-        return solve(1 , 1 , n,  stones , myset) ; 
-        
+        return mpp[stones.back()].size() != 0 ;
     }
 };
