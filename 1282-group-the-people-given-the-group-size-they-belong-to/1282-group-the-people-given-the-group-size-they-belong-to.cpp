@@ -6,27 +6,16 @@ public:
         
         for(int i=0 ; i<groupSizes.size() ; i++)
         {
-            mpp[groupSizes[i]].push_back(i) ; 
-        }
-        
-        for(auto m : mpp)
-        {
-            int val = m.first ; 
-            auto vec = m.second ; 
-            int cnt = 0 ; 
-            vector<int> temp ; 
+            int key = groupSizes[i] ; 
+            mpp[key].push_back(i) ; 
             
-            for(int i=0 ; i<vec.size() ; i++)
+            if(mpp[key].size() == key)
             {
-                cnt++ ; 
-                temp.push_back(vec[i]) ; 
-                if(cnt%m.first == 0)
-                {
-                    ans.push_back(temp) ; 
-                    temp.clear() ; 
-                }
+                ans.push_back(mpp[key]) ; 
+                mpp[key].clear() ; 
             }
         }
+        
         
         
         return ans ; 
