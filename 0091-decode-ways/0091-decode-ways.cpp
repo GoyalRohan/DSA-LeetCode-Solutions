@@ -16,8 +16,11 @@ public:
         for(int ind=i ; ind < min(i+2 , n) ; ind++)
         {
             temp += s[ind]  ;
-            if(mpp.find(temp) == mpp.end())
-                break ; 
+            // if(mpp.find(temp) == mpp.end())
+            //     break ; 
+            
+            if(stoi(temp) == 0 || stoi(temp) > 26)
+                break  ;
             
             ans += solve(ind+1 , n , s , mpp , dp) ; 
         }
@@ -28,10 +31,10 @@ public:
     int numDecodings(string s) {
         
         int n = s.size() ; 
-        for(int i=0 ; i<26 ; i++)
-        {
-            mpp[to_string(i+1)] = 'A' + i ; 
-        }
+        // for(int i=0 ; i<26 ; i++)
+        // {
+        //     mpp[to_string(i+1)] = 'A' + i ; 
+        // }
         
         vector<int> dp(n , -1) ; 
         return solve(0 , n , s , mpp , dp) ; 
