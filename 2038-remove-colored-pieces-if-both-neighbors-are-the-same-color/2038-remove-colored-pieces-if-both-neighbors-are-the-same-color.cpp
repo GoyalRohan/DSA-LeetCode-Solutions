@@ -4,15 +4,24 @@ public:
         int n = colors.size() ; 
         int scoreA = 0 , scoreB = 0 ; 
         
-        for(int i=1 ; i<n-1 ; i++)
+        for(int i=0 ; i<n ; i++)
         {
-            if((colors[i-1] == colors[i]) && (colors[i] == colors[i+1]))
+            char ch = colors[i] ; 
+            int cnt= 1 ; 
+            int ind=i+1 ; 
+            
+            while(ind<n && colors[ind] == colors[i])
             {
-                if(colors[i] == 'A')
-                    scoreA++ ; 
-                else
-                    scoreB++ ; 
+                cnt++ ; ind++ ; 
             }
+            
+            if(ch == 'A')
+                scoreA += cnt-2 > 0 ? cnt -2 : 0 ; 
+            else if(ch == 'B')
+                scoreB += cnt-2 > 0 ? cnt -2 : 0 ; 
+            
+            i = ind-1 ; 
+            
         }
         
         return scoreA > scoreB ; 
