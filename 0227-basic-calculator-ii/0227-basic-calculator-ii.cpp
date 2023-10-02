@@ -1,7 +1,7 @@
 class Solution {
 public:
     int calculate(string s) {
-        stack<int> st ; 
+        int result = 0 , lastno = 0 ; 
         char curchar , operation = '+' ; 
         int curno = 0 ; 
         
@@ -14,25 +14,18 @@ public:
             }
             if(!isdigit(curchar) && !iswspace(curchar) || i==s.size()-1)
             {
-                if(operation == '+')
+                if(operation == '+' || operation == '-')
                 {
-                    st.push(curno) ; 
-                }
-                else if(operation == '-')
-                {
-                    st.push(-curno) ; 
+                    result += lastno ; 
+                    operation == '+' ? lastno = curno : lastno = -curno ; 
                 }
                 else if(operation == '*')
                 {
-                    int stacktop = st.top() ; 
-                    st.pop(); 
-                    st.push(curno * stacktop) ; 
+                    lastno = lastno*curno ; 
                 }
                 else if(operation == '/')
                 {
-                    int stacktop = st.top() ; 
-                    st.pop(); 
-                    st.push(stacktop/curno) ; 
+                    lastno = lastno / curno ; 
                 }
                 
                 curno = 0 ; 
@@ -40,13 +33,7 @@ public:
             }
         }
         
-        int result = 0 ; 
-        while(!st.empty())
-        {
-            result += st.top() ; 
-            st.pop() ; 
-        }
-        
+        result += lastno ; 
         return result ; 
     }
 };
