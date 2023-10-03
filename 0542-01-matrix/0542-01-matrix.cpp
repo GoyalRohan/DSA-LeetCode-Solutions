@@ -1,53 +1,50 @@
 class Solution {
 public:
-    
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
         int m = mat.size() , n = mat[0].size() ; 
+        vector<vector<int>> dist(m , vector<int>(n, 0)) ; 
         
-        vector<vector<int>> dist(m, vector<int>(n , 0)); 
-        // vector<vector<int>> dist(m, vector<int>( vis, 0)); 
         queue<pair<pair<int, int> , int>> q ; 
-        
         for(int i=0 ; i<m ; i++)
         {
             for(int j=0 ; j<n ; j++)
             {
                 if(mat[i][j] == 0)
                 {
-                    q.push({{i , j} , 0}) ; 
+                    q.push({{i,j} , 0}) ; 
                     dist[i][j] = 0 ; 
                 }
-                
             }
         }
         
-        vector<int> dx = {0 , 0 , -1 , 1} ; 
-        vector<int> dy = {-1 , 1 , 0 , 0} ;
+        int dx[4] = {0 , 0 , 1 , -1} ; 
+        int dy[4] = {1 , -1 , 0 , 0} ; 
+         
         
-        while(!q.empty())
+        while(!q.empty()) 
         {
-            int row = q.front().first.first ; 
-            int col = q.front().first.second ; 
+            int i = q.front().first.first ; 
+            int j = q.front().first.second ; 
             int steps = q.front().second ; 
-            q.pop() ;
+            q.pop() ; 
             
-            dist[row][col] = steps ; 
             
-             
+            dist[i][j] = steps ; 
             
-            for(int i=0 ; i<4 ; i++)
+            for(int k=0 ; k<4 ; k++)
             {
-                int nrow = row + dx[i] ; 
-                int ncol = col + dy[i] ; 
-                
-                if(nrow >=0 && ncol >= 0 && nrow <m && ncol <n && mat[nrow][ncol] == 1)
+                int newi = i+dx[k] , newj = j+dy[k] ; 
+                // cout<<"Fsfsfref" ; 
+                if(newi>=0 && newi<m && newj>=0 && newj<n && mat[newi][newj] == 1)
                 {
-                    mat[nrow][ncol] = 0 ; 
-                    q.push({{nrow , ncol} , steps+1}) ; 
+                    mat[newi][newj] = 0 ; 
+                    q.push({{newi, newj} , steps+1}) ; 
                 }
             }
+            
         }
         
         return dist ; 
+
     }
 };
