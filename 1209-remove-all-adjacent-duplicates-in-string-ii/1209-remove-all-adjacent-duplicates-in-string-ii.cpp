@@ -1,36 +1,22 @@
 class Solution {
 public:
     string removeDuplicates(string s, int k) {
-        stack<pair<char, int>> st ; 
-        
-        for(int i=0 ; i<s.size() ; i++)
-        {
-            if(st.empty() || st.top().first != s[i])
-                st.push({s[i] , 1}) ; 
-            else
-            {
-                st.push({s[i] , st.top().second+1}) ; 
-                
-                if(st.top().second == k)
-                {
-                    while(!st.empty() && st.top().first == s[i])
-                    {
-                        st.pop() ; 
-                    }
-                }
+        vector<pair<char, int>> st;
+        for (char c : s) {
+            if (!st.empty() && st.back().first == c) {
+                ++st.back().second;
+            } else {
+                st.push_back({c, 1});
+            }
+            if (st.back().second == k) { // If reach enough k duplicate letters -> then remove
+                st.pop_back();
             }
         }
-        
-        string ans = "" ; 
-        while(!st.empty())
-        {
-            ans += st.top().first ; 
-            st.pop() ; 
+        string res;
+        for (auto p : st) {
+            res.append(p.second, p.first);
         }
-        
-        reverse(ans.begin(), ans.end()) ; 
-        
-        return ans ; 
+        return res;
             
     }
 };
