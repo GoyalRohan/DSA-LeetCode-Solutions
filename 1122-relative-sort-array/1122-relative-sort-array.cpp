@@ -4,51 +4,35 @@ public:
         int n = arr1.size() ; 
         int m = arr2.size(); 
         
-        map<pair<int, int> , int> mpp ; 
-        vector<int> temp , ans ; 
-        
-        for(int i=0 ; i<m ; i++)
-        {
-            mpp[{i, arr2[i]}] = 0 ;
-        }
-        
+        vector<int> h(1001 , 0) ; 
         for(int i=0 ; i<n ; i++)
         {
-            bool flag = false ; 
-            for(auto m : mpp)
-            {
-                if(m.first.second == arr1[i])
-                {
-                    mpp[{m.first.first , m.first.second}]++;
-                    // m.second += 1 ; 
-                    flag = true ; 
-                    // cout<<"FSfs" ;
-                    // cout<<m.first.second<<" : "<<m.second<<endl ; 
-                    break ; 
-                }
-                   
-            }
-            if(flag == false)
-                temp.push_back(arr1[i]) ; 
+            h[arr1[i]]++ ; 
         }
         
-        sort(temp.begin() ,temp.end()) ; 
+        // cout<<"Vsfvdv" ;
         
-        for(auto m : mpp)
+        int j= 0 ; 
+        for(int i=0 ; i<m ; i++)
         {
-            int ele = m.first.second , freq = m.second ; 
-            // cout<<ele<<" : "<<freq<<endl ; 
-            while(freq > 0)
+            while(h[arr2[i]] > 0)
             {
-                ans.push_back(ele) ;
-                // cout<<"fvdvd" ; 
-                freq-- ; 
+                arr1[j++] = arr2[i] ; 
+                h[arr2[i]]-- ;
             }
         }
         
-        for(auto t: temp)
-            ans.push_back(t) ; 
         
-        return ans ; 
+        
+        for(int i=0 ; i<=1000 ; i++)
+        {
+            while(h[i] > 0)
+            {
+                arr1[j++] = i ;
+                h[i]-- ;
+            }
+        }
+        
+        return arr1 ; 
     }
 };
