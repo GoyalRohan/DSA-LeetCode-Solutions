@@ -3,13 +3,15 @@ public:
     
     bool isPowerOfFour(int n) {
         
-        while(n > 1)
-        {
-            if(n%4 != 0)
-                return false ; 
-            n = n/4 ; 
-        }
+        if(n<1)
+            return false ;
         
-        return n==1 ; 
+       for(int i=0 ; i<32 ; i+=2)
+       {
+           if(n == (1<<i))
+               return true ; 
+       }
+        
+       return false ; 
     }
 };
