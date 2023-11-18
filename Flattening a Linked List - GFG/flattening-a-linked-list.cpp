@@ -161,13 +161,13 @@ Node *merge(Node *a, Node *b)
 Node *flatten(Node *root)
 {
    // Your code here
-       if(!root || !root->next)
-            return root ; 
-            
-        root->next = flatten(root->next) ; 
-        
-        root = merge(root, root->next) ; 
-        
+    if(!root || !root->next)
         return root ; 
+        
+    root->next = flatten(root->next) ; 
+    
+    root = merge(root, root->next) ; 
+    
+    return root ; 
 }
 
