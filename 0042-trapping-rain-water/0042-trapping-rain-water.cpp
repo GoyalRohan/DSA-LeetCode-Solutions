@@ -11,7 +11,7 @@ public:
         
         while(left <= right)
         {
-            if(maxleft <= maxright)
+            if(maxleft < maxright)
             {
                 if(maxleft > height[left])
                     ans += maxleft - height[left] ; 
