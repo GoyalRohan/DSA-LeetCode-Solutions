@@ -22,9 +22,7 @@ public:
             solve(i+1 , candidates , target - candidates[i] , output, ans) ; 
             output.pop_back() ; 
                 
-        }
-        
-        
+        }   
     }
     
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
