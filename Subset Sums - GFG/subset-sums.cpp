@@ -8,7 +8,7 @@ class Solution
 public:
     vector<int> ans ; 
 
-    void solve(int ind , vector<int> &arr , int sum)
+    void solve(int ind , vector<int> &arr , int &sum)
     {
         if(ind == arr.size())
         {
@@ -20,6 +20,7 @@ public:
         
         sum += arr[ind] ; 
         solve(ind+1 , arr , sum) ; 
+        sum -= arr[ind] ;
     }
 
     vector<int> subsetSums(vector<int> arr, int N)
